@@ -1,0 +1,36 @@
+<source>
+  @type forward
+  port 24224
+  bind 0.0.0.0
+  #message_format rfc5424
+</source>
+
+<filter **>
+  @type parser
+  key_name message
+  reserve_data true
+  <parse>
+    @type regexp
+    expression /^\s*(?<log_time>\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2})\s+(?<src_ip>\d{1,3}(?:\.\d{1,3}){3})\s+(?<user>\S+)\s+(?<dst_ip>\d{1,3}(?:\.\d{1,3}){3})\s+(?<port>\d+)\s+(?<application>\S+)\s+(?<action>\S+)\s*$/
+    time_key log_time
+    time_format %Y/%m/%d %H:%M:%S
+  </parse>
+</filter>
+
+<match paloalto.syslog.**>
+  @type copy
+  <store>
+    @type elasticsearch
+    host elasticsearch
+    port 9200
+    scheme http
+    logstash_format true
+    logstash_prefix paloalto
+    include_tag_key true
+    reload_connection false
+    request_timeout 30s
+  </store>
+  <store>
+    @type stdout
+  </store>
+</match>
