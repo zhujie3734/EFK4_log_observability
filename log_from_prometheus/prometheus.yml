@@ -1,0 +1,53 @@
+#################Set alert rules#############################
+rule_files:
+   - "time_diff_alert_rules.yml"
+
+time_diff_alert_rules.yml
+groups:
+  - name: TimeDifferenceAlerts
+    rules:
+      - alert: PBXandSBC_time_difference_too_high
+        expr: pbx_sbc_time_difference_seconds > 90
+        for: 5m # This means the condition must be true for 5 minutes before the alert triggers
+        labels:
+          severity: critical
+        annotations:
+          description: "The time drift between A and B is above the threshold of 90 seconds for the last 5 minutes."
+          solution: "Please log onto A(1.1.1.1) or B(2.2.2.2) to manually synchronize system time to prevent Inbound IP Call Failure"
+
+#################Send email through alertmanager to smtp proxy#############################
+global:
+  smtp_smarthost: '10.198.1.56:25'
+  smtp_from: 'l23@mail.com'
+  smtp_auth_username: 'XXXX'
+  smtp_auth_password: 'XXXX'
+  smtp_require_tls: true
+  smtp_tls_config:
+    insecure_skip_verify: true
+#templates:
+#  - '/etc/alertmanager/email_template.tmpl'
+
+receivers:
+  - name: 'email-receiver'
+    email_configs:
+      - to: 'WWW@mail.com'
+        send_resolved: false
+
+route:
+  receiver: 'email-receiver'
+  repeat_interval: 3m
+
+#issue resolve#
+#open debug in service confg
+#/etc/systemd/system/alertmanager.service
+#ExecStart=/usr/local/bin/alertmanager --config.file=/etc/alertmanager/alertmanager.yml --log.level=debug --storage.path=/var/lib/alertmanager
+
+#journal -u alertmanager -f
+
+#openssl s_client -connect 10.198.1.56:25 -starttls smtp
+
+#from debug log, alertmanager prior to 0.28 not support unencrypt or certificate without IP SAN
+
+#Sep 19 14:57:00 zabbix-server alertmanager[90473]: ts=2025-09-19T13:57:00.423Z caller=notify.go:745 level=warn component=dispatcher receiver=email-receiver integration=email[0] aggrGroup={}:{} msg="Notify attempt failed, will retry later" attempts=1 err="send STARTTLS command: tls: failed to verify certificate: x509: cannot validate certificate for 1.1.1.3 because it doesn't contain any IP SANs"
+
+#Sep 19 15:04:23 zabbix-server alertmanager[91216]: ts=2025-09-19T14:04:23.233Z caller=dispatch.go:352 level=debug component=dispatcher msg="Notify for alerts failed" num_alerts=1 err="email-receiver/email[0]: notify retry canceled after 16 attempts: *smtp.plainAuth auth: unencrypted connection"
