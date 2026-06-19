@@ -1,4 +1,20 @@
-local container_map = dofile("/etc/fluent-bit/scripts/container_map.lua")
+local container_map = {}
+local last_load_time = 0
+local map_reload_interval = 60
+
+local function load_container_map(timestamp)
+    local now = tonumber(timestamp) or os.time()
+
+    if now - last_load_time < map_reload_interval then
+        return
+    end
+
+    local ok, result = pcall(dofile, "/etc/fluent-bit/scripts/container_map.lua")
+    if ok and result ~= nil then
+        container_map = result
+        last_load_time = now
+    end
+end
 
 local function extract_container_id(path)
     if path == nil then
@@ -55,6 +71,8 @@ local function detect_event_status(message, level)
 end
 
 function parse_docker_log(tag, timestamp, record)
+    load_container_map(timestamp)
+
     local path = record["docker_log_path"]
     local container_id = extract_container_id(path)
 
