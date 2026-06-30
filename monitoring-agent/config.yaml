@@ -1,0 +1,12 @@
+agent_name: analytics-sre-agent
+check_interval_seconds: 60
+
+graylog:
+  enabled: true
+  host: lon-uat.avitah.internal
+  port: 12201
+
+containers:
+  - name: Avitah.ATS.Analytics.ETL.Agora
+    auto_restart: true
+    cooldown_minutes: 30
