@@ -1,0 +1,16 @@
+.env
+*.log
+*.db
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+/outputs/
+/work/
+
+**/secrets/
+**/config.local.yml
+**/config.local.yaml
+**/containers.conf
+**/metrics.test

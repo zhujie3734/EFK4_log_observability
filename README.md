@@ -1,70 +1,39 @@
-# Log Monitoring EFK Platform
+# Infrastructure Observability Toolkit
 
-This repository provides a modular **EFK (Elasticsearch, Fluent Bit, Fluentd, Kibana)** stack designed specifically for **logging and observability** use cases.
+A small monorepo for infrastructure monitoring and observability experiments.
+Each project is self-contained so it can be built, configured, and deployed
+without relying on files from the repository root.
 
-The architecture focuses on **scalability, extensibility, and log source isolation**, enabling various logging source to efficiently ingest, process, and analyze logs from multiple domains.
+## Projects
 
-## Design Goals
+| Project | Purpose | Status |
+|---|---|---|
+| [EFK Stack](efk-stack/README.md) | Fluent Bit/Fluentd log collection with Elasticsearch and Kibana | Lab / prototype |
+| [Python Monitoring Agent](python-monitoring-agent/README.md) | Docker container health checks with optional Graylog output | Prototype |
+| [Prometheus Container Monitor](prometheus-container-monitor/README.md) | Bash checks published through Pushgateway and alerted through Prometheus/Alertmanager | Lab / prototype |
 
-- **Clear separation of responsibilities** between log collection and log processing
-- **Easy extensibility** for onboarding new log sources
-- **Production-ready architecture** suitable for enterprise environments
+Historical experiments that are not part of the supported deployment paths are
+kept under [`archive/`](archive/README.md).
 
-## Architecture Overview
+## Repository conventions
 
-This EFK implementation separates **Fluent Bit** and **Fluentd** into distinct layers:
+- Copy `*.example.*` files to their documented local filenames before use.
+- Never commit passwords, webhook URLs, private keys, or internal hostnames.
+- Run Compose commands from the selected project's directory.
+- Treat the examples as a starting point and enable authentication, TLS, access
+  controls, resource limits, and pinned image versions before production use.
 
-- **Fluent Bit**  
-  Acts as a lightweight log forwarder deployed close to log sources. It is responsible for:
-  - Collecting logs from various systems
-  - Performing parsing and enrichment
-  - Forwarding logs to Fluentd
+## Quick start
 
-- **Fluentd**  
-  Serves as the centralized log processing layer, responsible for:
-  - Advanced relabelling and routing
-  - Log normalization and enrichment
+Choose one project and follow its README. For example:
 
-This separation improves **scalability**, **fault isolation**, and **future extensibility** of the logging pipeline.
+```bash
+cd prometheus-container-monitor
+cp agent/config/containers.example.conf agent/config/containers.conf
+cp alertmanager/config.example.yml alertmanager/config.local.yml
+docker compose config --quiet
+```
 
-## Log Source Design
+## License
 
-The repository is structured to support **multiple log input sources**, such as:
-
-- Network security devices (e.g. firewalls, VPNs)
-- Operating systems and infrastructure logs
-- Application and service logs
-- Cloud and platform audit logs
-
-Each log source is designed as an independent input configuration, making it easy to:
-- Add new log sources
-- Apply source-specific parsing and filtering
-- Extend the platform without impacting existing pipelines
-
-## Extensibility
-
-The modular design allows new log sources and processing logic to be added with minimal changes:
-
-- New Fluent Bit inputs can be introduced without modifying Fluentd pipelines
-- Fluentd offloads the parsing burden and inputs can be extended independently
-- Elasticsearch index patterns can be customized per log source or security domain
-
-This makes the platform well-suited for evolving cyber security requirements and growing log volumes.
-
-## Use Cases
-
-- Centralized security log aggregation
-- Threat detection and investigation
-- Security monitoring and auditing
-- Compliance and forensic analysis
-
-## Future Enhancements
-
-- Migrate the EFK platform to a Kubernetes-based deployment model
-- Leverage Kubernetes-native components for improved scalability and resilience
-- Introduce Helm charts and GitOps-based deployment workflows
-
-
----
-
-This project aims to provide a **flexible and extensible EFK foundation** for building modern cyber logging and observability platforms.
+This repository is licensed under the terms in [LICENSE](LICENSE).
