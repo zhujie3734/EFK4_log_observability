@@ -1,0 +1,11 @@
+groups:
+  - name: time-difference
+    rules:
+      - alert: HostTimeDifferenceTooHigh
+        expr: pbx_sbc_time_difference_seconds > 90
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          description: "The time difference between the monitored hosts exceeds 90 seconds."
+          solution: "Synchronize the clocks on the two monitored hosts."
