@@ -1,16 +1,14 @@
 # Infrastructure Observability Toolkit
 
-A small monorepo for infrastructure monitoring and observability experiments.
-Each project is self-contained so it can be built, configured, and deployed
-without relying on files from the repository root.
+A public repository for reusable infrastructure logging and observability
+experiments. The EFK project is self-contained and can be built, configured,
+and deployed without relying on files from the repository root.
 
 ## Projects
 
 | Project | Purpose | Status |
 |---|---|---|
 | [EFK Stack](efk-stack/README.md) | Fluent Bit/Fluentd log collection with Elasticsearch and Kibana | Prod Verified |
-| [Python Monitoring Agent](python-monitoring-agent/README.md) | Docker container health checks with optional Graylog output | Prototype |
-| [Prometheus Container Monitor](prometheus-container-monitor/README.md) | Private enterprise container monitoring implementation | Internal / private |
 
 Historical experiments that are not part of the supported deployment paths are
 kept under [`archive/`](archive/README.md).

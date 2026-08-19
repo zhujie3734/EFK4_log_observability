@@ -1,1 +1,0 @@
-"""Docker monitoring agent package."""
