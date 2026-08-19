@@ -1,13 +1,15 @@
 global:
   smtp_smarthost: smtp.example.internal:25
   smtp_from: alerts@example.com
-  smtp_auth_username: replace-me
-  smtp_auth_password: replace-me
+  smtp_auth_username: test
+  smtp_auth_password: test
   smtp_require_tls: true
+  smtp_tls_config:
+    insecure_skip_verify: true
 
 route:
   receiver: email-receiver
-  repeat_interval: 4h
+  repeat_interval: 3m
 
 receivers:
   - name: email-receiver
