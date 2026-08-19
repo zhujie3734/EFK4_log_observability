@@ -10,7 +10,7 @@ without relying on files from the repository root.
 |---|---|---|
 | [EFK Stack](efk-stack/README.md) | Fluent Bit/Fluentd log collection with Elasticsearch and Kibana | Lab / prototype |
 | [Python Monitoring Agent](python-monitoring-agent/README.md) | Docker container health checks with optional Graylog output | Prototype |
-| [Prometheus Container Monitor](prometheus-container-monitor/README.md) | Bash checks published through Pushgateway and alerted through Prometheus/Alertmanager | Lab / prototype |
+| [Prometheus Container Monitor](prometheus-container-monitor/README.md) | Private enterprise container monitoring implementation | Internal / private |
 
 Historical experiments that are not part of the supported deployment paths are
 kept under [`archive/`](archive/README.md).
@@ -25,12 +25,10 @@ kept under [`archive/`](archive/README.md).
 
 ## Quick start
 
-Choose one project and follow its README. For example:
+Choose one of the public projects and follow its README. For example:
 
 ```bash
-cd prometheus-container-monitor
-cp agent/config/containers.example.conf agent/config/containers.conf
-cp alertmanager/config.example.yml alertmanager/config.local.yml
+cd efk-stack
 docker compose config --quiet
 ```
 
