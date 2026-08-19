@@ -8,7 +8,7 @@ and deployed without relying on files from the repository root.
 
 | Project | Purpose | Status |
 |---|---|---|
-| [EFK Stack](efk-stack/README.md) | Fluent Bit/Fluentd log collection with Elasticsearch and Kibana | Lab / prototype |
+| [EFK Stack](efk-stack/README.md) | Fluent Bit/Fluentd log collection with Elasticsearch and Kibana | Prod Verified |
 
 Historical experiments that are not part of the supported deployment paths are
 kept under [`archive/`](archive/README.md).
