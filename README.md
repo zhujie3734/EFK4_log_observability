@@ -8,7 +8,7 @@ without relying on files from the repository root.
 
 | Project | Purpose | Status |
 |---|---|---|
-| [EFK Stack](efk-stack/README.md) | Fluent Bit/Fluentd log collection with Elasticsearch and Kibana | Lab / prototype |
+| [EFK Stack](efk-stack/README.md) | Fluent Bit/Fluentd log collection with Elasticsearch and Kibana | Prod Verified |
 | [Python Monitoring Agent](python-monitoring-agent/README.md) | Docker container health checks with optional Graylog output | Prototype |
 | [Prometheus Container Monitor](prometheus-container-monitor/README.md) | Private enterprise container monitoring implementation | Internal / private |
 
